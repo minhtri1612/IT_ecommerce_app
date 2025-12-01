@@ -1,10 +1,6 @@
 pipeline {
     agent any
     
-    tools {
-        nodejs 'NodeJS-18'
-    }
-    
     environment {
         CI = 'true'
         NODE_OPTIONS = '--experimental-vm-modules'
@@ -14,6 +10,23 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+        
+        stage('Setup Node.js') {
+            steps {
+                sh '''
+                    # Check if node is available, if not install via nvm
+                    if ! command -v node &> /dev/null; then
+                        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+                        export NVM_DIR="$HOME/.nvm"
+                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                        nvm install 18
+                        nvm use 18
+                    fi
+                    node --version
+                    npm --version
+                '''
             }
         }
         

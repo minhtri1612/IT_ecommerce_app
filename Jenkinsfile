@@ -4,6 +4,7 @@ pipeline {
     environment {
         CI = 'true'
         NODE_OPTIONS = '--experimental-vm-modules'
+        NVM_DIR = "${env.HOME}/.nvm"
     }
     
     stages {
@@ -16,14 +17,18 @@ pipeline {
         stage('Setup Node.js') {
             steps {
                 sh '''
-                    # Check if node is available, if not install via nvm
-                    if ! command -v node &> /dev/null; then
+                    # Install nvm if not present
+                    if [ ! -d "$HOME/.nvm" ]; then
                         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-                        export NVM_DIR="$HOME/.nvm"
-                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                        nvm install 18
-                        nvm use 18
                     fi
+                    
+                    # Source nvm and install Node 18
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                    
+                    nvm install 18
+                    nvm alias default 18
+                    
                     node --version
                     npm --version
                 '''
@@ -31,26 +36,21 @@ pipeline {
         }
         
         stage('Install Dependencies') {
-            parallel {
-                stage('Backend Dependencies') {
-                    steps {
-                        dir('backend') {
-                            sh 'npm ci || npm install'
-                        }
-                    }
-                }
-                stage('Frontend Dependencies') {
-                    steps {
-                        dir('frontend') {
-                            sh 'npm ci || npm install'
-                        }
-                    }
-                }
-                stage('Root Dependencies') {
-                    steps {
-                        sh 'npm ci || npm install'
-                    }
-                }
+            steps {
+                sh '''
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                    
+                    echo "Installing root dependencies..."
+                    npm ci || npm install
+                    
+                    echo "Installing backend dependencies..."
+                    cd backend && npm ci || npm install
+                    cd ..
+                    
+                    echo "Installing frontend dependencies..."
+                    cd frontend && npm ci || npm install
+                '''
             }
         }
         
@@ -58,7 +58,12 @@ pipeline {
             parallel {
                 stage('Backend Tests') {
                     steps {
-                        sh 'npm test'
+                        sh '''
+                            export NVM_DIR="$HOME/.nvm"
+                            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                            
+                            npm test
+                        '''
                     }
                     post {
                         always {
@@ -68,9 +73,12 @@ pipeline {
                 }
                 stage('Frontend Tests') {
                     steps {
-                        dir('frontend') {
-                            sh 'npm test -- --watchAll=false'
-                        }
+                        sh '''
+                            export NVM_DIR="$HOME/.nvm"
+                            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                            
+                            cd frontend && npm test -- --watchAll=false
+                        '''
                     }
                 }
             }
@@ -78,9 +86,12 @@ pipeline {
         
         stage('Build Frontend') {
             steps {
-                dir('frontend') {
-                    sh 'npm run build'
-                }
+                sh '''
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                    
+                    cd frontend && npm run build
+                '''
             }
         }
         

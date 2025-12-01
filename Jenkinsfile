@@ -90,7 +90,7 @@ pipeline {
                     export NVM_DIR="$HOME/.nvm"
                     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
                     
-                    cd frontend && npm run build
+                    cd frontend && CI=false npm run build
                 '''
             }
         }

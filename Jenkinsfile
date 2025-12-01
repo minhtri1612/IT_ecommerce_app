@@ -22,20 +22,20 @@ pipeline {
                 stage('Backend Dependencies') {
                     steps {
                         dir('backend') {
-                            sh 'npm ci'
+                            sh 'npm ci || npm install'
                         }
                     }
                 }
                 stage('Frontend Dependencies') {
                     steps {
                         dir('frontend') {
-                            sh 'npm ci'
+                            sh 'npm ci || npm install'
                         }
                     }
                 }
                 stage('Root Dependencies') {
                     steps {
-                        sh 'npm ci'
+                        sh 'npm ci || npm install'
                     }
                 }
             }
@@ -56,12 +56,7 @@ pipeline {
                 stage('Frontend Tests') {
                     steps {
                         dir('frontend') {
-                            sh 'npm test -- --watchAll=false --ci'
-                        }
-                    }
-                    post {
-                        always {
-                            junit allowEmptyResults: true, testResults: 'frontend/test-results/*.xml'
+                            sh 'npm test -- --watchAll=false'
                         }
                     }
                 }

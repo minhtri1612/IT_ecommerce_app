@@ -1,0 +1,68 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: shopit-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=shopIT
+    networks:
+      - shopit-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: shopit-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - NODE_ENV=production
+      - FRONTEND_URL=http://localhost
+      - DB_URI=mongodb://mongodb:27017/shopIT
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_TIME=5d
+      - COOKIE_EXPIRES_TIME=7
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_EMAIL=${SMTP_EMAIL}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_FROM_EMAIL=noreply@shopit.com
+      - SMTP_FROM_NAME=ShopIT
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend/uploads:/app/backend/uploads
+    networks:
+      - shopit-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: shopit-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - shopit-network
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  shopit-network:
+    driver: bridge

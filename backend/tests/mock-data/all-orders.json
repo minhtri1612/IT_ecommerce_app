@@ -1,0 +1,54 @@
+[
+  {
+    "_id": "5d5ecb5a6e598605f06cb001",
+    "shippingInfo": {
+      "address": "123 Test Street",
+      "city": "Test City",
+      "phoneNo": "1234567890",
+      "zipCode": "12345",
+      "country": "Test Country"
+    },
+    "orderItems": [
+      {
+        "name": "Test Product",
+        "quantity": 2,
+        "image": "https://example.com/product.jpg",
+        "price": 99.99,
+        "product": "5d5ecb5a6e598605f06cb945"
+      }
+    ],
+    "paymentMethod": "COD",
+    "itemsPrice": 199.98,
+    "taxAmount": 20.00,
+    "shippingAmount": 10.00,
+    "totalAmount": 229.98,
+    "orderStatus": "Processing",
+    "user": "5d5ecb5a6e598605f06cb999"
+  },
+  {
+    "_id": "5d5ecb5a6e598605f06cb002",
+    "shippingInfo": {
+      "address": "456 Another Street",
+      "city": "Another City",
+      "phoneNo": "0987654321",
+      "zipCode": "54321",
+      "country": "Another Country"
+    },
+    "orderItems": [
+      {
+        "name": "Another Product",
+        "quantity": 1,
+        "image": "https://example.com/product2.jpg",
+        "price": 149.99,
+        "product": "5d5ecb5a6e598605f06cb946"
+      }
+    ],
+    "paymentMethod": "Card",
+    "itemsPrice": 149.99,
+    "taxAmount": 15.00,
+    "shippingAmount": 10.00,
+    "totalAmount": 174.99,
+    "orderStatus": "Shipped",
+    "user": "5d5ecb5a6e598605f06cb998"
+  }
+]

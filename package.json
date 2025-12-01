@@ -1,0 +1,42 @@
+{
+  "name": "it_ecommerce_app",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/app.js",
+    "dev": "NODE_ENV=development nodemon backend/app.js",
+    "prod": "NODE_ENV=production node backend/app.js",
+    "seeder": "node backend/seeder/seeder.js",
+    "seed:admin": "node backend/seeder/adminSeeder.js",
+    "seed:users": "node backend/seeder/userSeeder.js",
+    "update:admin": "node backend/seeder/updateAdmin.js",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest --runInBand --detectOpenHandles"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1692.0",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.20.1",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.11",
+    "react-router-dom": "^6.30.2",
+    "stripe": "^20.0.0",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "mongodb-memory-server-core": "^10.3.0",
+    "node-mocks-http": "^1.17.2",
+    "nodemon": "^3.1.11",
+    "supertest": "^7.1.4",
+    "vitest": "^3.2.4"
+  }
+}

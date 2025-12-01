@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Environment files (IMPORTANT - contains secrets!)
+.env
+backend/config/config.env
+
+# Build outputs
+frontend/build/
+dist/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker volumes data
+mongodb_data/
+
+# Uploads (if storing locally)
+backend/uploads/shopit/
+
+# Test coverage
+coverage/
+
+# Terraform state (contains sensitive data)
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/.terraform.lock.hcl
+
+# Misc
+*.bak
+*.tmp

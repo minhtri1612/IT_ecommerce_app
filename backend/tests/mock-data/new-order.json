@@ -1,0 +1,23 @@
+{
+  "shippingInfo": {
+    "address": "123 Test Street",
+    "city": "Test City",
+    "phoneNo": "1234567890",
+    "zipCode": "12345",
+    "country": "Test Country"
+  },
+  "orderItems": [
+    {
+      "name": "Test Product",
+      "quantity": 2,
+      "image": "https://example.com/product.jpg",
+      "price": 99.99,
+      "product": "5d5ecb5a6e598605f06cb945"
+    }
+  ],
+  "paymentMethod": "COD",
+  "itemsPrice": 199.98,
+  "taxAmount": 20.00,
+  "shippingAmount": 10.00,
+  "totalAmount": 229.98
+}

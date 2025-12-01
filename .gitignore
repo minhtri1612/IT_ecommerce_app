@@ -34,6 +34,10 @@ backend/uploads/shopit/
 # Test coverage
 coverage/
 
+# Test results (JUnit XML for CI)
+**/test-results/
+*.xml
+
 # Terraform state (contains sensitive data)
 terraform/.terraform/
 terraform/*.tfstate

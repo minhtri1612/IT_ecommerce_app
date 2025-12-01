@@ -7,13 +7,13 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "chart.js": "^4.4.0",
     "countries-list": "^3.0.5",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "mdbreact": "^5.2.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
-    "chart.js": "^4.4.0",
     "react-datepicker": "^4.18.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
@@ -37,6 +37,15 @@
       "react-app/jest"
     ]
   },
+  "jest": {
+    "reporters": [
+      "default",
+      ["jest-junit", {
+        "outputDirectory": "test-results",
+        "outputName": "junit.xml"
+      }]
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -49,5 +58,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:4000"
+  "proxy": "http://localhost:4000",
+  "devDependencies": {
+    "jest-junit": "^16.0.0"
+  }
 }
